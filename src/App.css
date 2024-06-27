@@ -1,0 +1,334 @@
+body {
+  font-family: 'Montserrat', sans-serif;
+  /* font-weight: lighter; */
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.smallTalk {
+  font-size: 0.5em;
+  font-weight: lighter;
+  /* margin-top: 2em; */
+
+}
+
+#root {
+  /* font-family: 'Nunito', sans-serif; */
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.nav-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  /* padding: 0.01em 0; */
+  background-color: #003366;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 10%;
+  z-index: 1000;
+}
+
+nav::before {
+ position: absolute;
+ content: "";
+ width: 100%;
+ height: 100%;
+ background-color: #003366;
+ /* border-bottom: 1px solid #3399ff; */
+ top: 0;
+ left: 0;
+ transform-origin: top left;
+ transform: skewY(3deg);
+ z-index: -1;
+ transform: skewY(var(--skew-deg, -3deg)); /* Use a CSS variable with a default value */
+
+}
+
+.title {
+  font-family: 'Montserrat', sans-serif;
+  color: #fff;
+  font-size: 1.5em;
+  transform: (50%, 50%); 
+  font-weight: lighter;
+  /* text-transform: uppercase; */
+  margin: 0;
+  padding-left: 1em;
+}
+
+.title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0; /* Start with 0 width */
+  height: 1.5px; /* Thickness of the tracing line */
+  background: #3399FF; /* Color of the tracing line */
+}
+
+.logo {
+  height: 5em;
+  position: absolute;
+  top: 0%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  will-change: filter;
+  transition: filter 300ms;
+  animation: spin .1s linear infinite;
+}
+
+ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0;
+  padding-right: 1em;
+  list-style-type: none; /* Removes bullets or numbers */
+  padding-left: 0;
+  gap: 1em; 
+}
+
+ul li {
+  position: relative; /* Required for absolute positioning of ::after */
+  display: inline-block; /* Adjust as needed for your layout */
+  margin: 0 10px; /* Example margin, adjust as needed */
+}
+
+ul li::after {
+  content: '';
+  position: absolute;
+  bottom: -5px; /* Adjust as needed */
+  left: 0;
+  width: 0; /* Start with 0 width */
+  height: 2px; /* Height of the line */
+  background-color: #3399ff; /* Color of the line */
+  transition: width 0.5s ease; /* Smooth transition for the width */
+}
+
+ul li:hover::after {
+  width: 100%; /* Full width on hover */
+}
+
+.welcome {
+  font-size: 2em;
+  font-weight: lighter;
+  /* margin-top: 2em; */
+  position: absolute; /* Positioning relative to its nearest positioned ancestor */
+  top: 10%; /* Align top edge to the top of the container */
+  left: 5%; 
+  animation: fadeInScale 1.5s forwards; /* Animation name, duration, fill mode */
+}
+
+.about {
+  font-size: 2em;
+  font-weight: lighter;
+  /* margin-top: 2em; */
+  /* position: absolute; /* Positioning relative to its nearest positioned ancestor */
+  top: 20%; /* Align top edge to the top of the container */
+  /* left: 5%;  */ 
+  animation: fadeInScale 1.5s forwards; /* Animation name, duration, fill mode */
+}
+
+.stats {
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: #003366;
+  color: #3399ff;
+  /* width: 2150px; */
+  font-size: 1.5em;
+  font-weight: lighter;
+  /* margin-top: 2em; */
+  /* position: absolute; /* Positioning relative to its nearest positioned ancestor */
+  top: 25%; /* Align top edge to the top of the container */  
+  animation: fadeInScale 1.5s forwards; /* Animation name, duration, fill mode */
+}
+
+.services {
+  font-size: 2em;
+  font-weight: lighter;
+  /* margin-top: 2em; */
+  /* position: absolute; /* Positioning relative to its nearest positioned ancestor */
+  top: 30%; /* Align top edge to the top of the container */
+  /* left: 5%;  */ 
+  animation: fadeInScale 1.5s forwards; /* Animation name, duration, fill mode */
+}
+
+.bodpic {
+  width: 100%;
+  height: 450px;
+  margin-top: 75em;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-image: url('src/assets/office.png');
+  background-size: cover;
+}
+
+/* Define the keyframes for the animation */
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(2); /* Start bigger */
+  }
+  to {
+    opacity: 1;
+    transform: scale(1); /* Scale back to normal size */
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes trace-animation {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@font-face {
+  font-family: 'Nunito';
+  src: url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet');
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 10%;
+  background-color: #003366;
+  /* border: 1px solid #3399ff; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-size: 0.75em;
+}
+
+footer::before {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  background-color: #003366;
+  /* border-top: 1px solid #3399ff; */
+  top: 0;
+  left: 0;
+  transform-origin: bottom right;
+  transform: skewY(3deg);
+  z-index: -1;
+  transform: skewY(var(--skew-deg, -3deg)); /* Use a CSS variable with a default value */
+ }
+
+ .footer-container {
+  display: flex;
+  /* flex-direction: row; */
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  width: 100%;
+}
+
+.terms {
+  justify-self: flex-start; /* Aligns .terms to the start of the flex container */
+}
+
+.footer-social {
+  gap: 20px; /* Adds space between the icons */
+}
+
+.footer-container > div {
+  display: flex;
+  align-items: center; /* Aligns items vertically in the center */
+}
+
+.footer-container a {
+  margin-right: 15px; /* Adds some space between the links */
+}
+
+.first, .second, .third, .fourth, .fifth {
+  border: 1px solid #3399ff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1em;
+  height: 200px; /* Example fixed height */
+  width: 200px; 
+}
+
+.first {
+  background-image: url('src/assets/first.png');
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+}
+
+.second {
+  background-image: url('src/assets/second.png');
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+}
+
+.third {
+  background-image: url('src/assets/third.png');
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+}
+
+.fourth {
+  background-image: url('src/assets/fourth.png');
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+}
+
+.fifth {
+  background-image: url('src/assets/fifth.png');
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+}
+
+.opaque {
+  color: #F2F2F2;
+  background: rgba(0, 51, 102, 0.2); /* Semi-transparent white */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+  padding: 20px; /* Spacing around the text */
+  backdrop-filter: blur(10px); /* Blur the background behind the div */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Subtle border */
+}
