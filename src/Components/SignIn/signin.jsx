@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './signin.css';
 
-const SignIn = () => {
+const SignIn = ({ onLogin }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -22,7 +22,8 @@ const SignIn = () => {
             if (res.ok) { // Check if status code is in the range 200-299
                 const data = await res.json();
                 console.log('User logged in successfully:', data);
-                navigate('/');
+                onLogin(username); // Call onLogin with the username
+                navigate('/'); // Navigate to the home page
             } else {
                 const errorData = await res.json(); // Assuming the server sends JSON with error details
                 console.error('Error from server:', errorData);
@@ -52,6 +53,8 @@ const SignIn = () => {
                 />
                 <button type="submit">Log In</button>
                 {error && <p className="error">{error}</p>}
+                <p>Don't have an account? <a href="/register">Sign Up</a></p>
+                <p className='tinyTalk'>By creating an account you agree to the Terms of Use and have read our Privacy Policy. You understand Synapse Solutions and its affiliates may use your email address to provide updates, ads, and offers. You can opt out via the Privacy Policy.</p>
             </form>
         </div>
     );

@@ -46,7 +46,7 @@ const SignUp = () => {
     return (
         <div className="signup">
             <form onSubmit={handleSubmit}>
-                <h2>Register</h2>
+                <h2>Create an Account</h2>
                 <input
                     type="text"
                     placeholder="Username"
@@ -90,6 +90,8 @@ const SignUp = () => {
                     </select>
                 <button type="submit">Sign Up</button>
                 {error && <p className="error">{error}</p>}
+            <p>Already have an account? <a href='/login'>Log in</a></p>
+            <p className='tinyTalk'>By creating an account you agree to the Terms of Use and have read our Privacy Policy. You understand Synapse Solutions and its affiliates may use your email address to provide updates, ads, and offers. You can opt out via the Privacy Policy.</p>
             </form>
         </div>
     );

@@ -30,7 +30,7 @@ mongoose.connection.on('error', (error) => {
 app.use(express.json());
 app.use(morgan('dev'));
 app.use(cors({
-    origin: 'http://localhost:5174',
+    origin: '*',
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
