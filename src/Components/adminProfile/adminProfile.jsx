@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './adminProfile.css';
 
 const createProject = async (event, setConfirmationMessage, setTotalCost, getRegion) => {
@@ -60,17 +60,18 @@ const getRegion = (state) => {
     return null;
 };
 
-const showProjects = async () => {
+const showProjects = async (setProjects) => {
     try {
         const response = await fetch('http://localhost:5010/api/project/show');
         const data = await response.json();
         console.log('Projects retrieved:', data);
+        setProjects(data);
     } catch (err) {
         console.error('Error retrieving projects:', err);
     }
 };
 
-const updateProject = async (event) => {
+const updateProject = async (event, setProjects, getRegion) => {
     event.preventDefault();
     const id = 'project_id'; // Replace with the actual project ID
     const state = event.target.elements.projectState.value;
@@ -101,14 +102,15 @@ const updateProject = async (event) => {
 
         const data = await response.json();
         console.log('Project updated:', data);
+        setProjects((prevProjects) => prevProjects.map((proj) =>
+            proj._id === id ? data : proj
+        ));
     } catch (err) {
         console.error('Error updating project:', err);
     }
 };
 
-const deleteProject = async (event) => {
-    event.preventDefault();
-    const id = 'project_id'; // Replace with the actual project ID
+const deleteProject = async (id, setProjects) => {
     try {
         const response = await fetch(`http://localhost:5010/api/project/delete/${id}`, {
             method: 'DELETE',
@@ -118,8 +120,8 @@ const deleteProject = async (event) => {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
-        const data = await response.json();
-        console.log('Project deleted:', data);
+        console.log('Project deleted');
+        setProjects((prevProjects) => prevProjects.filter((proj) => proj._id !== id));
     } catch (err) {
         console.error('Error deleting project:', err);
     }
@@ -132,6 +134,39 @@ const AdminProfile = ({ isLoggedIn }) => {
     const [developmentPages, setDevelopmentPages] = useState(0);
     const [isRedesignChecked, setIsRedesignChecked] = useState(false);
     const [isDevelopmentChecked, setIsDevelopmentChecked] = useState(false);
+    const [projects, setProjects] = useState([]);
+    const [filteredProjects, setFilteredProjects] = useState([]);
+
+    useEffect(() => {
+        const fetchProjects = async () => {
+            try {
+                const response = await fetch('http://localhost:5010/api/project');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                const data = await response.json();
+                setProjects(data);
+            } catch (error) {
+                console.error("Failed to fetch projects:", error);
+            }
+        };
+
+        fetchProjects();
+    }, []);
+
+    useEffect(() => {
+        const statuses = ['Open', 'In Progress', 'Completed'];
+        const filtered = projects.filter(project => statuses.includes(project.projectStatus));
+        setFilteredProjects(filtered);
+    }, [projects]);
+
+    const handleUpdateProjectStatus = async (projectId, currentStatus) => {
+        const newStatus = currentStatus === 'In Progress' ? 'Completed' : 'In Progress';
+        await updateProjectStatus(projectId, newStatus);
+        setProjects(prevProjects => prevProjects.map(project =>
+            project._id === projectId ? { ...project, projectStatus: newStatus } : project
+        ));
+    };
 
     const handleCheckboxChange = (event) => {
         const cost = parseFloat(event.target.value);
@@ -166,22 +201,22 @@ const AdminProfile = ({ isLoggedIn }) => {
 
     return (
         <div className="adminProfile">
-            <h2>Admin Profile</h2>
             <form onSubmit={(event) => createProject(event, setConfirmationMessage, setTotalCost, getRegion)}>
+                <h2>Create a new Project</h2>
                 <select name="projectState">
                     <option value="">Select State</option>
                     {["Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"].map(state => (
                         <option key={state} value={state}>{state}</option>
                     ))}
                 </select>
-                <input type="text" name="projectOwner" placeholder="Project Owner" />
-                <input type="text" name="projectDescription" placeholder="Project Description" />
-                <input type="text" name="projectManager" placeholder="Project Manager" />
-                <input type="text" name="projectMembers" placeholder="Project Members" />
-                <input type="text" name="projectStatus" placeholder="Project Status" />
-                <input type="date" name="projectStartDate" placeholder="Project Start Date" />
-                <input type="date" name="projectEstimatedEndDate" placeholder="Project Estimated End Date" />
-                <input type="date" name="projectEndDate" placeholder="Project End Date" />
+                <input type="text" name="projectOwner" placeholder="Project Owner" required />
+                <input type="text" name="projectDescription" placeholder="Project Description" required />
+                <input type="text" name="projectManager" placeholder="Project Manager" required />
+                <input type="text" name="projectMembers" placeholder="Project Members" required />
+                <input type="text" name="projectStatus" placeholder="Project Status" required />
+                <input type="date" name="projectStartDate" placeholder="Project Start Date" required />
+                <input type="date" name="projectEstimatedEndDate" placeholder="Project Estimated End Date" required />
+                <input type="date" name="projectEndDate" placeholder="Project End Date" required />
                 
                 <div className="costOptions">
                     <div className='maintenanceCost'><h2>Monthly Maintenance Cost:</h2>
@@ -195,7 +230,7 @@ const AdminProfile = ({ isLoggedIn }) => {
                             <input type="checkbox" value="400" onChange={handleCheckboxChange} /> Premium ($400)
                         </label>
                     </div>
-<hr></hr>
+                    <hr></hr>
                     <div className='developmentCost'><h2>Development Cost:</h2>
                         <label>
                             <input type="checkbox" name="redesign" value="175" onChange={handleCheckboxChange} /> Website Redesign ($175 + $10 per page added)
@@ -244,25 +279,28 @@ const AdminProfile = ({ isLoggedIn }) => {
                 <input type="hidden" name="projectCost" value={totalCost} />
                 <div className="totalCost">Total Cost: ${totalCost}</div>
                 <button type="submit">Create project</button>
+                <hr></hr>
             </form>
             {confirmationMessage && <div className="confirmationMessage">{confirmationMessage}</div>}
-            <div className="action-buttons">
-                <button onClick={showProjects}>Show projects</button>
+            
+            <div className="dashboard">
+                <h2>Project Dashboard</h2>
+                <div className="projectCounts">
+                    <div>Open Projects: {projects.filter(project => project.projectStatus === 'Open').length}</div>
+                    <div>In Progress Projects: {projects.filter(project => project.projectStatus === 'In Progress').length}</div>
+                    <div>Closed Projects: {projects.filter(project => project.projectStatus === 'Completed').length}</div>
+                </div>
             </div>
-            <form onSubmit={updateProject}>
-                <input type="text" name="projectOwner" placeholder="Project Owner" />
-                <input type="text" name="projectDescription" placeholder="Project Description" />
-                <input type="text" name="projectManager" placeholder="Project Manager" />
-                <input type="text" name="projectMembers" placeholder="Project Members" />
-                <input type="text" name="projectStatus" placeholder="Project Status" />
-                <input type="date" name="projectStartDate" placeholder="Project Start Date" />
-                <input type="date" name="projectEstimatedEndDate" placeholder="Project Estimated End Date" />
-                <input type="date" name="projectEndDate" placeholder="Project End Date" />
-                <button type="submit">Update project</button>
-            </form>
-            <form onSubmit={deleteProject}>
-                <button type="submit">Delete project</button>
-            </form>
+            
+            <ul className="projectList">
+                <h2>Remove Projects</h2>
+                {projects.map((project) => (
+                    <li key={project._id} className="projectItem">
+                        {project.projectOwner}
+                        <button onClick={() => deleteProject(project._id, setProjects)}>Delete project</button>
+                    </li>
+                ))}
+            </ul>
         </div>
     );
 };

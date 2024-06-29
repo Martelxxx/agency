@@ -38,7 +38,7 @@ router.post("/create", async (req, res) => {
 });
 
 // Show all existing projects
-router.get("/show", async (req, res) => {
+router.get("/", async (req, res) => {
     try {
         const projects = await Project.find();
         console.log('Projects retrieved successfully:', projects);
@@ -51,30 +51,19 @@ router.get("/show", async (req, res) => {
 
 // Update an existing project
 router.put("/update/:id", async (req, res) => {
-    const { projectOwner, projectDescription, projectManager, projectMembers, projectStatus, projectStartDate, projectEstimatedEndDate, projectEndDate, projectCost, projectRegion } = req.body;
+    const updateData = req.body;
 
     console.log('Received project update request with body:', req.body);
 
-    if (!projectOwner || !projectDescription || !projectManager || !projectMembers || !projectStatus || !projectStartDate || !projectEstimatedEndDate || !projectEndDate || !projectCost || !projectRegion) {
-        console.log('Missing required fields');
-        return res.status(400).json({ message: 'All fields are required' });
+    if (!updateData || Object.keys(updateData).length === 0) {
+        console.log('No update data provided');
+        return res.status(400).json({ message: 'No update data provided' });
     }
 
     try {
         const project = await Project.findOneAndUpdate(
             { _id: req.params.id },
-            {
-                projectOwner,
-                projectDescription,
-                projectManager,
-                projectMembers,
-                projectStatus,
-                projectStartDate,
-                projectEstimatedEndDate,
-                projectEndDate,
-                projectCost,
-                projectRegion,
-            },
+            { $set: updateData },
             { new: true }
         );
 
@@ -84,7 +73,7 @@ router.put("/update/:id", async (req, res) => {
         console.error('Error updating project:', err);
         res.status(500).json(err);
     }
-});
+}); 
 
 // Get by region
 router.get('/region/:region', async (req, res) => {
@@ -99,16 +88,20 @@ router.get('/region/:region', async (req, res) => {
     }
 });
 
-
-// Delete an existing project
-router.delete("/delete/:id", async (req, res) => {
+// Delete a project
+router.delete('/delete/:id', async (req, res) => {
     try {
-        await Project.findByIdAndDelete(req.params.id);
-        console.log('Project deleted successfully');
-        res.status(200).json('Project deleted successfully');
+        const { id } = req.params;
+        const project = await Project.findByIdAndDelete(id);
+
+        if (!project) {
+            return res.status(404).json({ message: 'Project not found' });
+        }
+
+        res.status(200).json({ message: 'Project deleted successfully' });
     } catch (err) {
         console.error('Error deleting project:', err);
-        res.status(500).json(err);
+        res.status(500).json({ message: 'Error deleting project', error: err });
     }
 });
 

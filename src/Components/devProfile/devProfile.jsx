@@ -27,8 +27,12 @@ function DevProfile({ user, onRegionUpdate, updateProjectStatus }) {
         }
     };
 
-    const handleAcceptProject = async (projectId) => {
-        await updateProjectStatus(projectId, 'In Progress');
+    const handleUpdateProjectStatus = async (projectId, currentStatus) => {
+        const newStatus = currentStatus === 'In Progress' ? 'Completed' : 'In Progress';
+        await updateProjectStatus(projectId, newStatus);
+        setProjects(prevProjects => prevProjects.map(project => 
+            project._id === projectId ? { ...project, projectStatus: newStatus } : project
+        ));
     };
 
     return (
@@ -47,7 +51,10 @@ function DevProfile({ user, onRegionUpdate, updateProjectStatus }) {
                             <p>Estimated End Date: {new Date(project.projectEstimatedEndDate).toLocaleDateString()}</p>
                             <p>Cost: ${project.projectCost}</p>
                             <p>Region: {project.projectRegion}</p>
-                            <button onClick={() => handleAcceptProject(project._id)}>Accept Project</button>
+                            <button 
+                                onClick={() => handleUpdateProjectStatus(project._id, project.projectStatus)}>
+                                {project.projectStatus === 'In Progress' ? 'Mark as Completed' : 'Accept Project'}
+                            </button>
                         </div>
                     ))
                 )}
