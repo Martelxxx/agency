@@ -1,0 +1,50 @@
+/* devProfile.css */
+
+.devProfile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    margin: 0 auto;
+}
+
+h2 {
+    margin-bottom: 15px;
+    color: #003366;
+}
+
+.projectList {
+    width: 100%;
+}
+
+.projectItem {
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.projectItem:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+.projectItem h3 {
+    margin-top: 0;
+    color: #0055a5;
+}
+
+.projectItem p {
+    margin: 5px 0;
+    color: #333333;
+}
+
+.projectItem p strong {
+    font-weight: bold;
+}

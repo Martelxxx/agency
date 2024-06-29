@@ -15,7 +15,8 @@
 .price-section h2 {
     text-align: center;
     color: #002244;
-    font-size: 2.5em;
+    font-size: 2em;
+    font-weight: lighter;
     margin-bottom: 20px;
     font-family: 'Arial', sans-serif;
     letter-spacing: 1px;
@@ -24,7 +25,7 @@
 .price-table {
     width: 100%;
     border-collapse: collapse;
-    font-family: 'Arial', sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .price-row {
@@ -50,7 +51,7 @@
 }
 
 .price-cell:first-child {
-    font-weight: bold;
+    font-weight: lighter;
     font-size: 1.2em;
     color: #0056b3;
 }

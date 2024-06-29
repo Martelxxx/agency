@@ -6,7 +6,7 @@ const router = express.Router();
 
 // Register a new user
 router.post('/register', async (req, res) => {
-    const { username, email, firstName, lastName, password, confirmPassword, userType } = req.body;
+    const { username, email, firstName, lastName, password, confirmPassword, userType, region } = req.body;
 
     console.log('Received registration request with body:', req.body);
 
@@ -38,6 +38,7 @@ router.post('/register', async (req, res) => {
             password: hashedPassword,
             confirmPassword: hashedPassword,
             userType,
+            region,
         });
 
         const user = await newUser.save();
@@ -68,6 +69,22 @@ router.post('/login', async (req, res) => {
         res.status(500).json(err);
     }
 });
+
+// Update region of a user
+router.put('/updateRegion/:id', async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+        if (!user) {
+            return res.status(400).json("User not found!");
+        }
+
+        await User.findByIdAndUpdate(req.params.id, { $set: { region: req.body.region } });
+        res.status(200).json("Region has been updated!");
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
+
 
 // Logout a user
 router.post('/logout', (req, res) => {

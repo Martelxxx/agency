@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema({
     password: { type: String, required: true },
     confirmPassword: { type: String, required: true },
     userType: { type: String, required: true },
+    region: { type: String, required: false },
 });
 
 const User = mongoose.model("User", userSchema);
