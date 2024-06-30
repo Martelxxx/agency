@@ -12,18 +12,25 @@
     margin: 0 auto;
 }
 
-h2 {
-    margin-bottom: 15px;
+.devProfile h2 {
+    margin-bottom: 20px;
+    font-weight: lighter;
     color: #003366;
+    text-align: center;
 }
 
 .projectList {
     width: 100%;
+    list-style: none;
+    padding: 0;
 }
 
 .projectItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background-color: #ffffff;
-    padding: 15px;
+    padding: 20px;
     border-radius: 8px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     margin-bottom: 15px;
@@ -35,16 +42,39 @@ h2 {
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
 }
 
-.projectItem h3 {
+.projectDetails {
+    max-width: 70%;
+}
+
+.projectDetails h3 {
     margin-top: 0;
     color: #0055a5;
 }
 
-.projectItem p {
+.projectDetails p {
     margin: 5px 0;
     color: #333333;
 }
 
-.projectItem p strong {
+.projectDetails p strong {
     font-weight: bold;
+}
+
+.projectActions {
+    display: flex;
+    align-items: center;
+}
+
+.projectActions button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #0055a5;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.projectActions button:hover {
+    background-color: #003366;
 }

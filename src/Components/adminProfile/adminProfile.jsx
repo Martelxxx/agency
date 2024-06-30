@@ -293,7 +293,7 @@ const AdminProfile = ({ isLoggedIn }) => {
             </div>
             
             <ul className="projectList">
-                <h2>Remove Projects</h2>
+                <h2>Remove</h2>
                 {projects.map((project) => (
                     <li key={project._id} className="projectItem">
                         {project.projectOwner}

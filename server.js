@@ -9,6 +9,8 @@ import cors from 'cors';
 
 import userRouter from './src/Routes/user.js';
 import projectRouter from './src/Routes/project.js';
+import messageRouter from './src/Routes/message.js';
+
 
 const app = express();
 const PORT = process.env.PORT || 5010;
@@ -56,6 +58,11 @@ app.use('/api/project', projectRouter);
 // Update region router
 app.use('/api/user/updateRegion', userRouter);
 
+// Message sending router
+app.use('/api/message', messageRouter);
+
+app.use('/api/users', userRouter);
+ 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

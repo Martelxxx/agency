@@ -49,6 +49,26 @@ router.get("/", async (req, res) => {
     }
 });
 
+// Show all existing projects or filtered by query parameters
+router.get("/show", async (req, res) => {
+    try {
+        const { searchTerm, status } = req.query;
+
+        let filter = {};
+        if (searchTerm) {
+            filter.projectOwner = new RegExp(searchTerm, 'i'); // Case-insensitive search
+        }
+        if (status) {
+            filter.projectStatus = { $in: status.split(',') }; // Expecting a comma-separated list of statuses
+        }
+
+        const projects = await Project.find(filter);
+        res.status(200).json(projects);
+    } catch (err) {
+        res.status(500).json({ message: 'Error retrieving projects', error: err });
+    }
+});
+
 // Update an existing project
 router.put("/update/:id", async (req, res) => {
     const updateData = req.body;

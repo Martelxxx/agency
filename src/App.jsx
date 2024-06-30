@@ -6,6 +6,7 @@ import SignUp from './Components/SignUp/signup.jsx';
 import AdminProfile from './Components/adminProfile/adminProfile.jsx';
 import DevProfile from './Components/devProfile/devProfile.jsx';
 import UpdateProject from './Components/UpdateForm/update.jsx';
+import Inbox from './Components/Inbox/inbox.jsx';
 import logo from './assets/agencyLogo.png';
 import fb from './assets/fb.png';
 import tw from './assets/x.png';
@@ -83,26 +84,31 @@ const App = () => {
   return (
     <>
       <div className="nav-container">
-        <nav>
-          <div className="title"><Link to="/">Synapse Solutions</Link></div>
-          <img src={logo} className="logo react" alt="React logo" />
-          <ul>
-            <li className="links">
-              {isLoggedIn ? (
-                <>
-                  <span className="msg">Welcome, {user?.username}!</span>
-                  <Link to="/" onClick={handleLogout}>Log Out</Link>
-                </>
-              ) : (
-                <Link to="/login">Log In</Link>
-              )}
-            </li>
-            <li><Link to="/register">Register</Link></li>
-            <li><Link to="/pricing">Pricing</Link></li>
-            <li><Link to="/">Contact</Link></li>
-          </ul>
-        </nav>
-      </div>
+  <nav>
+    <div className="title"><Link to="/">Synapse Solutions</Link></div>
+    <img src={logo} className="logo react" alt="React logo" />
+    <ul>
+      <li className="links">
+        {isLoggedIn ? (
+          <>
+            <span className="msg">Welcome, {user?.username}!</span>
+            <Link to="/" onClick={handleLogout}>Log Out</Link>
+          </>
+        ) : (
+          <Link to="/login">Log In</Link>
+        )}
+      </li>
+      <li><Link to="/register">Register</Link></li>
+      <li><Link to="/pricing">Pricing</Link></li>
+      <li><Link to="/">Contact</Link></li>
+      {isLoggedIn && (
+        <>
+          <li><Link to="/inbox">Inbox</Link></li>
+        </>
+      )}
+    </ul>
+  </nav>
+</div>
       {showLogoutMessage && <div>Logged out successfully!</div>}
       <Routes>
         <Route path="/" element={<Maincontent />} />
@@ -112,6 +118,7 @@ const App = () => {
         <Route path="/adminProfile" element={<AdminProfile isLoggedIn={isLoggedIn} />} />
         <Route path="/devProfile" element={<DevProfile user={user} updateProjectStatus={updateProjectStatus} />} />
         <Route path="/updateProject" element={<UpdateProject />} />
+        <Route path="/inbox" element={<Inbox user={user} />} />
       </Routes>
       <footer>
         <div className="footer-container">

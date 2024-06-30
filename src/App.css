@@ -101,7 +101,7 @@ nav::before {
   /* margin-top: 2em; */
   position: absolute; /* Positioning relative to its nearest positioned ancestor */
   top: -25%; /* Align top edge to the top of the container */
-  left: -455%; 
+  left: -375%; 
   animation: fadeInScale 1.5s forwards; /* Animation name, duration, fill mode */
 }
 

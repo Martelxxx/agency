@@ -1,6 +1,4 @@
-// devProfile.jsx
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import './devProfile.css';
 
 function DevProfile({ user, onRegionUpdate, updateProjectStatus }) {
@@ -8,7 +6,6 @@ function DevProfile({ user, onRegionUpdate, updateProjectStatus }) {
 
     useEffect(() => {
         if (user && user.region) {
-            console.log('Fetching projects for region:', user.region);
             fetchProjectsByRegion(user.region);
         }
     }, [user]);
@@ -20,7 +17,6 @@ function DevProfile({ user, onRegionUpdate, updateProjectStatus }) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
             const data = await response.json();
-            console.log('Projects fetched:', data);
             setProjects(data);
         } catch (err) {
             console.error('Error fetching projects:', err);
@@ -44,17 +40,20 @@ function DevProfile({ user, onRegionUpdate, updateProjectStatus }) {
                 ) : (
                     projects.map((project) => (
                         <div key={project._id} className="projectItem">
-                            <h2>Company Profile: {project.projectOwner}</h2>
-                            <p>Project Description: {project.projectDescription}</p>
-                            <p>Status: {project.projectStatus}</p>
-                            <p>Start Date: {new Date(project.projectStartDate).toLocaleDateString()}</p>
-                            <p>Estimated End Date: {new Date(project.projectEstimatedEndDate).toLocaleDateString()}</p>
-                            <p>Cost: ${project.projectCost}</p>
-                            <p>Region: {project.projectRegion}</p>
-                            <button 
-                                onClick={() => handleUpdateProjectStatus(project._id, project.projectStatus)}>
-                                {project.projectStatus === 'In Progress' ? 'Mark as Completed' : 'Accept Project'}
-                            </button>
+                            <div className="projectDetails">
+                                <h3>Company Profile: {project.projectOwner}</h3>
+                                <p><strong>Project Description:</strong> {project.projectDescription}</p>
+                                <p><strong>Status:</strong> {project.projectStatus}</p>
+                                <p><strong>Date Added:</strong> {new Date(project.projectStartDate).toLocaleDateString()}</p>
+                                <p><strong>Expected End Date:</strong> {new Date(project.projectEstimatedEndDate).toLocaleDateString()}</p>
+                                <p><strong>Region:</strong> {project.projectRegion}</p>
+                            </div>
+                            <div className="projectActions">
+                                <button 
+                                    onClick={() => handleUpdateProjectStatus(project._id, project.projectStatus)}>
+                                    {project.projectStatus === 'In Progress' ? 'Mark as Completed' : 'Accept Project'}
+                                </button>
+                            </div>
                         </div>
                     ))
                 )}

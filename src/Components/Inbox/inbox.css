@@ -1,0 +1,58 @@
+.inbox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.messages-container {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.message-card {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.reply-button {
+    margin-top: 5px;
+    padding: 5px 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.message-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.message-input {
+    margin-bottom: 10px;
+    padding: 10px;
+    height: 50px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.send-button {
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.replying-to {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-left: 3px solid #4CAF50;
+    background-color: #f9f9f9;
+}
