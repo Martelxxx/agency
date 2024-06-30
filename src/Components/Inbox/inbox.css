@@ -1,58 +1,146 @@
 .inbox {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 40px;
+    background-color: #f4f4f4;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    max-height: 900px;
+    font-size: 0.8em;
+    gap: 20px;
+}
+
+.inbox h2 {
+    text-align: center;
+    font-weight: lighter;
+    color: #003366;
+    margin-bottom: 20px;
+}
+
+.inbox > div, .inbox > form {
+    flex: 1 1 calc(33.333% - 40px);
+    box-sizing: border-box;
     padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    overflow-y: auto;
+}
+
+.inbox form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.inbox input[type="text"],
+.inbox textarea,
+.inbox button,
+.inbox select {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.inbox input[type="text"]:focus,
+.inbox textarea:focus,
+.inbox select:focus {
+    border-color: #3399ff;
+    outline: none;
+}
+
+.inbox button {
+    background-color: #003366;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.inbox button:hover {
+    background-color: #0055a5;
 }
 
 .messages-container {
-    width: 100%;
-    margin-bottom: 20px;
+    margin: 20px 0;
+}
+
+.message-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.reply-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #003366;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.reply-button:hover {
+    background-color: #0055a5;
+}
+
+@media (max-width: 768px) {
+    .inbox {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .inbox > div, .inbox > form {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
 }
 
 .message-card {
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
     margin-bottom: 10px;
-}
-
-.reply-button {
-    margin-top: 5px;
-    padding: 5px 10px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
     border-radius: 5px;
-    cursor: pointer;
-}
-
-.message-form {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-}
-
-.message-input {
-    margin-bottom: 10px;
-    padding: 10px;
-    height: 50px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.send-button {
-    padding: 10px 20px;
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.replying-to {
-    padding: 10px;
-    margin-bottom: 10px;
-    border-left: 3px solid #4CAF50;
     background-color: #f9f9f9;
+    transition: background-color 0.3s ease;
+}
+
+.message-card.unread {
+    background-color: #e6f7ff; /* Light blue to indicate unread */
+    border-left: 5px solid #2196F3; /* A blue left border for high visibility */
+    font-weight: bold; /* Make text bold to indicate importance */
+}
+
+.message-card .delete-button {
+    padding: 5px 10px;
+    margin-left: 10px;
+    background-color: #f44336; /* Red button for delete action */
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.message-card .delete-button:hover {
+    background-color: #d32f2f; /* Darker red on hover */
+}
+
+.message-card .reply-button {
+    padding: 5px 10px;
+    background-color: #4CAF50; /* Green button for reply */
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.message-card .reply-button:hover {
+    background-color: #388E3C; /* Darker green on hover */
 }

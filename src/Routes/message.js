@@ -27,4 +27,29 @@ router.get('/:userId', async (req, res) => {
     }
 });
 
+// Assuming this is in your routes/message.js
+router.post('/markRead', async (req, res) => {
+    const { messageId } = req.body;
+    try {
+        const message = await Message.findByIdAndUpdate(messageId, { read: true }, { new: true });
+        res.status(200).json(message);
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to update message read status', error });
+    }
+});
+
+router.delete('/delete/:messageId', async (req, res) => {
+    const { messageId } = req.params;
+    try {
+        const deletedMessage = await Message.findByIdAndDelete(messageId);
+        if (!deletedMessage) {
+            return res.status(404).json({ message: 'Message not found' });
+        }
+        res.status(200).json({ message: 'Message deleted successfully', deletedMessageId: messageId });
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to delete message', error });
+    }
+});
+
+
 export default router;
