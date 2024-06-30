@@ -128,11 +128,11 @@ function Inbox({ user }) {
         // Navigate based on user role
         if (user.userType === 'admin') {
             navigate('/adminProfile'); // Path to admin profile
-        } else if (userType === 'developer') {
+        } else if (user.userType === 'user') {
             navigate('/devProfile'); // Path to developer profile
         } else {
             console.error('Unknown user role');
-            console.log('User:', user.userType);
+            console.log('User:', user);
         }
     };
 
@@ -145,14 +145,15 @@ function Inbox({ user }) {
             Return to Profile
         </button>
             <div className="messages-container">
-                {messages.map((message) => (
-                    <div key={message._id} className={`message-card ${!message.read ? 'unread' : ''}`}>
-                        <p><strong>{message.sender.username}:</strong> {message.content}</p>
-                        <p className="timestamp">{new Date(message.timestamp).toLocaleString()}</p>
-                        <button className="reply-button" onClick={() => handleSetReply(message)}>Reply</button>
-                        <button onClick={() => handleDeleteMessage(message._id)} className="delete-button">Delete</button>
-                    </div>
-                ))}
+            {messages.map((message) => (
+    <div key={message._id} 
+         className={`message-card ${!message.read ? 'unread' : ''} ${message.sender._id === user._id ? 'from-sender' : 'from-receiver'}`}>
+        <p><strong>{message.sender.username}:</strong> {message.content}</p>
+        <p className="timestamp">{new Date(message.timestamp).toLocaleString()}</p>
+        <button className="reply-button" onClick={() => handleSetReply(message)}>Reply</button>
+        <button onClick={() => handleDeleteMessage(message._id)} className="delete-button">Delete</button>
+    </div>
+))}
             </div>
             <form className="message-form" onSubmit={handleSendMessage}>
                 {replyingTo && (
