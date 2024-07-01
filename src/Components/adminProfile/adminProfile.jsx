@@ -297,6 +297,8 @@ const AdminProfile = ({ isLoggedIn }) => {
                 {projects.map((project) => (
                     <li key={project._id} className="projectItem">
                         {project.projectOwner}
+                        <br></br>
+                        {project.projectStatus}
                         <button onClick={() => deleteProject(project._id, setProjects)}>Delete project</button>
                     </li>
                 ))}

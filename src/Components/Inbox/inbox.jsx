@@ -107,6 +107,7 @@ function Inbox({ user }) {
         setReceiverId(message.sender._id);
         setReplyingTo(message);
         setNewMessage(`Replying to ${message.sender.username}: \n"${message.content}"\n\n`);
+        console.log('Replying to:', replyingTo.sender);
     };
 
     const handleDeleteMessage = async (messageId) => {
@@ -148,7 +149,15 @@ function Inbox({ user }) {
             {messages.map((message) => (
     <div key={message._id} 
          className={`message-card ${!message.read ? 'unread' : ''} ${message.sender._id === user._id ? 'from-sender' : 'from-receiver'}`}>
-        <p><strong>{message.sender.username}:</strong> {message.content}</p>
+        <p><strong>{message.sender.username}:</strong> 
+           <div>
+           {message.content.split('\n').map((line, index) => (
+                    <React.Fragment key={index}>
+                        {line}<br /><hr />
+                    </React.Fragment>
+                ))}
+            </div>
+        </p>
         <p className="timestamp">{new Date(message.timestamp).toLocaleString()}</p>
         <button className="reply-button" onClick={() => handleSetReply(message)}>Reply</button>
         <button onClick={() => handleDeleteMessage(message._id)} className="delete-button">Delete</button>
@@ -159,7 +168,13 @@ function Inbox({ user }) {
                 {replyingTo && (
                     <div className="replying-to">
                         <strong>Replying to {replyingTo.sender.username}:</strong>
-                        <p>{replyingTo.content}</p>
+                        <div>
+                            <p>test</p>{replyingTo.content.split('\n').map((line, index) => (
+                                <React.Fragment key={index}>
+                                    {line}<br />
+                                </React.Fragment>
+                            ))}
+                        </div>
                     </div>
                 )}
                 <select 
